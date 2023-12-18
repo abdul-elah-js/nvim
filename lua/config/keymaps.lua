@@ -2,12 +2,17 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-local keymap = vim.keymap.set
+local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
-keymap("i", "kj", "<Escape>", opts)
-keymap("i", "jk", "<Escape>", opts)
-keymap("v", "s", "c", opts)
-keymap("n", "s", "cl", opts)
-keymap({ "v", "n" }, "<S-Tab>", ":BufferLineCyclePrev<CR>", opts)
-keymap({ "v", "n" }, "<Tab>", ":BufferLineCycleNext<CR>", opts)
+keymap.del({ "n", "v" }, "<leader>x")
+
+keymap.set("i", "kj", "<Escape>", opts)
+keymap.set("i", "jk", "<Escape>", opts)
+keymap.set("v", "s", "c", opts)
+keymap.set("n", "s", "cl", opts)
+keymap.set({ "v", "n" }, "<S-Tab>", ":BufferLineCyclePrev<CR>", opts)
+keymap.set({ "v", "n" }, "<Tab>", ":BufferLineCycleNext<CR>", opts)
+keymap.set({ "v", "n" }, "<leader>x", ":bd<CR>", opts)
+keymap.set({ "n", "v" }, ">", ">>", opts)
+keymap.set({ "n", "v" }, "<", "<<", opts)
