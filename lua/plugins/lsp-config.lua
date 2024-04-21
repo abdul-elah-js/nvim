@@ -27,6 +27,17 @@ return {
             },
           },
         },
+        intelephense = {
+          filetypes = { "php" },
+          settings = {
+            intelephense = {
+              root_pattern = { "composer.json", ".git" },
+              format = {
+                braces = "k&r",
+              },
+            },
+          },
+        },
       },
     },
   },
