@@ -1,12 +1,20 @@
--- return {
---   "folke/tokyonight.nvim",
---   opts = {
---     transparent = true,
---     styles = {
---       sidebars = "transparent",
---       floats = "transparent",
---     },
---   },
+return {
+  "folke/tokyonight.nvim",
+  opts = {
+    transparent = true,
+    styles = {
+      sidebars = "transparent",
+      floats = "transparent",
+    },
+  },
+
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      background_colour = "#000000",
+    },
+  },
+}
 --
 --   {
 --     "LazyVim/LazyVim",
@@ -16,13 +24,13 @@
 --   },
 -- }
 
-return {
-  { "catppuccin/nvim" },
-
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin",
-    },
-  },
-}
+-- return {
+--   { "catppuccin/nvim" },
+--
+--   {
+--     "LazyVim/LazyVim",
+--     opts = {
+--       colorscheme = "catppuccin",
+--     },
+--   },
+-- }
