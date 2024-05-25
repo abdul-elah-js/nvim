@@ -30,6 +30,9 @@ require("lazy").setup({
   },
   install = { colorscheme = { "tokyonight", "habamax" } },
   checker = { enabled = true }, -- automatically check for plugin updates
+  ui = {
+    border = "rounded",
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins
@@ -42,6 +45,31 @@ require("lazy").setup({
         "tohtml",
         "tutor",
         "zipPlugin",
+      },
+    },
+  },
+  {
+    "romgrk/barbar.nvim",
+    enabled = true,
+    dependencies = {
+      "lewis6991/gitsigns.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    init = function()
+      vim.g.barbar_auto_setup = false
+    end,
+    opts = {
+      sidebar_filetype = {
+        -- neotree = {
+        --   text = "File Explorer",
+        --   align = "center",
+        -- },
+        ["neo-tree"] = true,
+        ["neotree"] = true,
+        undotree = {
+          text = "File Explorer",
+          align = "center",
+        },
       },
     },
   },

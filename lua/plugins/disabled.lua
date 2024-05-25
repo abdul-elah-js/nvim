@@ -1,5 +1,4 @@
--- return {
---   "akinsho/bufferline.nvim",
---   enabled = false,
--- }
-return {}
+return {
+  "akinsho/bufferline.nvim",
+  enabled = false,
+}
