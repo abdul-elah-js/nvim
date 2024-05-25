@@ -4,6 +4,7 @@ if not vim.loop.fs_stat(lazypath) then
   -- stylua: ignore
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
 end
+---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup({
@@ -14,7 +15,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.terraform" },
     { import = "lazyvim.plugins.extras.lang.json" },
-    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
+    { import = "lazyvim.plugins.extras.ui.mini-animate" },
     { import = "lazyvim.plugins.extras.linting.eslint" },
     -- import/override with your plugins
     { import = "plugins" },
@@ -45,31 +46,6 @@ require("lazy").setup({
         "tohtml",
         "tutor",
         "zipPlugin",
-      },
-    },
-  },
-  {
-    "romgrk/barbar.nvim",
-    enabled = true,
-    dependencies = {
-      "lewis6991/gitsigns.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    init = function()
-      vim.g.barbar_auto_setup = false
-    end,
-    opts = {
-      sidebar_filetype = {
-        -- neotree = {
-        --   text = "File Explorer",
-        --   align = "center",
-        -- },
-        ["neo-tree"] = true,
-        ["neotree"] = true,
-        undotree = {
-          text = "File Explorer",
-          align = "center",
-        },
       },
     },
   },
