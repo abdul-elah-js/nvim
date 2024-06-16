@@ -3,44 +3,31 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  -- init = function()
-  --   vim.g.barbar_auto_setup = false
-  -- end,
   opts = {
     animation = true,
-
     -- Automatically hide the tabline when there are this many buffers left.
     -- Set to any value >=0 to enable.
     auto_hide = false,
-
     -- Enable/disable current/total tabpages indicator (top right corner)
     tabpages = true,
-
     -- Enables/disable clickable tabs
     --  - left-click: go to buffer
     --  - middle-click: delete buffer
     clickable = true,
-
     -- Excludes buffers from the tabline
     exclude_ft = { "neo-tree" },
     exclude_name = {},
-
     -- A buffer to this direction will be focused (if it exists) when closing the current buffer.
     -- Valid options are 'left' (the default), 'previous', and 'right'
     focus_on_close = "left",
-
     -- Hide inactive buffers and file extensions. Other options are `alternate`, `current`, and `visible`.
     -- hide = {extensions = true, inactive = true},
-
     -- Disable highlighting alternate buffers
     highlight_alternate = false,
-
     -- Disable highlighting file icons in inactive buffers
     highlight_inactive_file_icons = true,
-
     -- Enable highlighting visible buffers
     highlight_visible = true,
-
     icons = {
       -- Configure the base icons on the bufferline.
       -- Valid options to display the buffer index and -number are `true`, 'superscript' and 'subscript'
@@ -63,13 +50,10 @@ return {
         -- Sets the icon's highlight group.
         -- If false, will use nvim-web-devicons colors
         custom_colors = false,
-
         -- Requires `nvim-web-devicons` if `true`
         enabled = true,
       },
       separator = { left = "▎", right = "" },
-      -- separator = {left = '|', right = '|'},
-
       -- If true, add an additional separator at the end of the buffer list
       -- separator_at_end = true,
 
@@ -138,6 +122,6 @@ return {
 
     -- Sets the name of unnamed buffers. By default format is "[Buffer X]"
     -- where X is the buffer number. But only a static string is accepted here.
-    no_name_title = "Blank buffer",
+    no_name_title = "New File",
   },
 }

@@ -9,7 +9,8 @@ return {
   },
   config = function()
     -- require lazy extensions
-    local lazy_status = require("lazy.status")
+    -- local lazy_status = require("lazy.status")
+    local Util = require("lazyvim.util")
 
     -- custom setup
     require("lualine").setup({
@@ -23,7 +24,7 @@ return {
       },
       -- man:124 for sections doc
       sections = {
-        lualine_a = { "progress" }, -- disable vim mode viewer
+        lualine_a = { "mode" }, -- disable vim mode viewer
         lualine_b = {
           {
             "branch",
@@ -55,11 +56,6 @@ return {
         },
         lualine_x = {
           {
-            lazy_status.updates,
-            cond = lazy_status.has_updates,
-          },
-          -- number of changes in file
-          {
             "diff",
             colored = true,
             padding = { right = 2 },
@@ -69,13 +65,34 @@ return {
               removed = "-",
             },
           },
-          -- status like @recording
+          {
+            function()
+              return require("noice").api.status.command.get()
+            end,
+            cond = function()
+              return package.loaded["noice"] and require("noice").api.status.command.has()
+            end,
+            color = Util.ui.fg("Statement"),
+          },
+          -- stylua: ignore
+          {
+            function() return require("noice").api.status.mode.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+            color = Util.ui.fg("Constant"),
+          },
+          -- stylua: ignore
+          {
+            function() return "  " .. require("dap").status() end,
+            cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
+            color = Util.ui.fg("Debug"),
+          },
           -- {
-          --   noice.api.statusline.mode,
+          --   noice.api.statusline.mode.get,
           --   cond = noice.api.statusline.mode.has,
+          --   color = { fg = "#ffffff" },
           -- },
         },
-        lualine_y = {},
+        lualine_y = { "progress" },
         lualine_z = { "location" },
       },
       extensions = {

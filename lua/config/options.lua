@@ -3,8 +3,13 @@
 -- Add any additional options here
 
 local opt = vim.opt
-
+-- UI
+opt.background = "dark"
 -- disable relative numbers
 opt.relativenumber = false
 -- persist selection after operation
 opt.selectmode = "mouse,key"
+-- conceal json
+opt.conceallevel = 0
+-- termguicolors
+opt.termguicolors = true
