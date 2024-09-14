@@ -27,6 +27,8 @@ vim.g.localmapleader = "\\"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+
+
 require("lazy").setup({
   spec = {
     { import = "plugins" },
@@ -44,6 +46,7 @@ require("lazy").setup({
   checker = { enabled = true, notify = false },
   change_detection = { enabled = true, notify = false },
 })
-vim.cmd([[colorscheme everforest]])
 require("config.options")
 require("config.keymaps")
+require("config.colorscheme.init")
+vim.cmd([[colorscheme tokyonight]])

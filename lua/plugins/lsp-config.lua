@@ -29,7 +29,7 @@ return {
         "lua_ls",
         "ansiblels",
         "jsonls",
-        "tsserver",
+        "ts_ls",
         "terraformls",
         "tflint",
         "yamlls",

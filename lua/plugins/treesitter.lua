@@ -1,10 +1,14 @@
 return {
-	"nvim-treesitter/nvim-treesitter", -- syntax highlighter
-	build = ":TSUpdate",
-  config = function ()
+  "nvim-treesitter/nvim-treesitter", -- syntax highlighter
+  build = ":TSUpdate",
+  cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+  keys = {
+    { "<BS>",      desc = "Decrement Selection", mode = "x" },
+    { "<C-Space>", desc = "Increment Selection", mode = "x" },
+  },
+  config = function()
     local configs = require("nvim-treesitter.configs")
-    local parsers = require("nvim-treesitter.parsers")
-
+    ---@diagnostic disable-next-line: missing-fields
     configs.setup({
       highlight = {
         enable = true,
@@ -18,8 +22,12 @@ return {
         enable = true,
         enable_autocmd = false,
       },
+      sync_install = true,
+      auto_install = false,
       ensure_installed = {
         "bash",
+        "dockerfile",
+        "go",
         "html",
         "javascript",
         "diff",
@@ -30,11 +38,13 @@ return {
         "luap",
         "markdown",
         "markdown_inline",
-        "terraform",
         "hcl",
+        "php",
         "python",
         "query",
         "regex",
+        "sql",
+        "terraform",
         "tsx",
         "typescript",
         "vim",

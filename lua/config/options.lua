@@ -29,24 +29,24 @@ opt.splitbelow = true
 opt.splitright = true
 
 -- performance
-opt.timeoutlen = 500
+opt.timeoutlen = 200
 opt.updatetime = 300
 
 -- file encoding
 opt.encoding = "utf-8"
 
 vim.diagnostic.config({
-  virtual_text = false,    -- Disable virtual text to avoid clutter
-  signs = true,            -- Show signs in the sign column
-  underline = true,        -- Underline the text with diagnostics
+  virtual_text = false,     -- Disable virtual text to avoid clutter
+  signs = true,             -- Show signs in the sign column
+  underline = true,         -- Underline the text with diagnostics
   update_in_insert = false, -- Don't update diagnostics in insert mode
-  severity_sort = true,    -- Sort diagnostics by severity
+  severity_sort = true,     -- Sort diagnostics by severity
   float = {
-    focusable = false,     -- Whether the float can be focused
-    style = "minimal",     -- Minimal styling
-    border = "rounded",    -- Border style: 'single', 'double', 'rounded', 'solid', or 'shadow'
+    focusable = false,      -- Whether the float can be focused
+    style = "minimal",      -- Minimal styling
+    border = "rounded",     -- Border style: 'single', 'double', 'rounded', 'solid', or 'shadow'
     -- source = "always",      -- Show the source of the diagnostic (e.g., LSP)
-    header = "",           -- Optional header for the floating window
-    prefix = "",           -- Optional prefix for each diagnostic in the floating window
+    header = "",            -- Optional header for the floating window
+    prefix = "",            -- Optional prefix for each diagnostic in the floating window
   },
 })

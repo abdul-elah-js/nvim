@@ -101,7 +101,8 @@ return {
       function()
         local path = vim.fn.input("Path: ")
         utils.find_files({ cwd = path, hidden = true, no_ignore = true })
-      end
+      end,
+      desc = "Search In Path"
     },
     {
       "<leader>fc",
