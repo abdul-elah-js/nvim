@@ -41,7 +41,7 @@ return {
     config = function()
       require("telescope").load_extension('terraform_doc')
     end,
-    event = { "FileType terraform" },
+    event = { "BufEnter *.tf" },
     keys = {
       { "<leader>Tt", ":Telescope terraform_doc<CR>",                            mode = { "n", "x" }, desc = "Terraform docs" },
       { "<leader>Tm", ":Telescope terraform_doc modules<CR>",                    mode = { "n", "x" }, desc = "Terraform modules" },
@@ -72,13 +72,10 @@ return {
       { "<leader>xo",  vim.diagnostic.open_float,  desc = "Open Diagnostic" },
       { "<leader>x]",  vim.diagnostic.goto_next,   desc = "Go To Next Diagnostic" },
       { "<leader>x[",  vim.diagnostic.goto_prev,   desc = "Go To Prev Diagnostic" },
-      { "<leader>cxo", vim.diagnostic.open_float,  desc = "Open Diagnostic" },
-      { "<leader>cx]", vim.diagnostic.goto_next,   desc = "Go To Next Diagnostic" },
-      { "<leader>cx[", vim.diagnostic.goto_prev,   desc = "Go To Prev Diagnostic" },
       { "<leader>cLi", ":LspInfo<CR>",             desc = "Lsp Info" },
-      { "<leader>cLs", ":LspStart<CR>",            desc = "Lsp Info" },
-      { "<leader>cLp", ":LspStop<CR>",             desc = "Lsp Pause" },
-      { "<leader>cLr", ":LspRestart<CR>",          desc = "Lsp Restart" },
+      { "<leader>cls", ":LspStart<CR>",            desc = "Lsp Start" },
+      { "<leader>clp", ":LspStop<CR>",             desc = "Lsp Pause" },
+      { "<leader>clr", ":LspRestart<CR>",          desc = "Lsp Restart" },
       { "<leader>cm",  ":Mason<CR>",               desc = "Mason" },
     },
     config = function()
@@ -161,7 +158,28 @@ return {
 
       lspconfig.yamlls.setup({})
 
-      lspconfig.phpactor.setup({})
+      lspconfig.intelephense.setup({
+        cmd       = { "intelephense", "--stdio" },
+        filetypes = { "php" },
+        root_dir  = lspconfig.util.root_pattern("composer.json", ".git")
+      })
+
+      -- lspconfig.phpactor.setup({
+      --   cmd = { "phpactor", "language-server" },
+      --   filetypes = { "php", "blade" },
+      --   root_dir = lspconfig.util.root_pattern("composer.json", ".git"),
+      --   init_options = {
+      --     ["language_server_worse_reflection.inlay_hints.enable"] = true,
+      --     ["language_server_worse_reflection.inlay_hints.params"] = true,
+      --     ["language_server_worse_reflection.inlay_hints.types"] = true,
+      --     ["language_server_configuration.auto_config"] = false,
+      --     ["code_transform.import_globals"] = true,
+      --     ["language_server_phpstan.enabled"] = false,
+      --     ["language_server_psalm.enabled"] = false,
+      --     ["language_server_phpstan.level"] = "7",
+      --     ["language_server_phpstan.bin"] = "phpstan",
+      --   },
+      -- })
     end,
   },
 }

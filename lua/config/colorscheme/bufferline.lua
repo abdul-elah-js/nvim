@@ -1,4 +1,7 @@
 return {
+  rose_pine = function()
+    require("rose-pine.plugins.bufferline")
+  end,
   tokyonight = function()
     return {}
   end,

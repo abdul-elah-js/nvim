@@ -3,10 +3,10 @@ return {
   version = "*", -- Use for stable version
   lazy = false,
   keys = {
-    { "<leader>tv", ":ToggleTerm direction=vertical<CR>",    desc = "terminal vertical" },
-    { "<leader>th", ":ToggleTerm direction=horizontal<CR>",  desc = "terminal horizontal" },
-    { "<leader>tf", ":ToggleTerm direction=float<CR>",       desc = "terminal float" },
-    { "<leader>tH", ":ToggleTerm direction=float dir=~<CR>", desc = "terminal float (~)" },
+    { "<leader>tv", ":ToggleTerm direction=vertical<CR>",    desc = "Terminal Vertical" },
+    { "<leader>th", ":ToggleTerm direction=horizontal<CR>",  desc = "Terminal Horizontal" },
+    { "<leader>tf", ":ToggleTerm direction=float<CR>",       desc = "Terminal Float" },
+    { "<leader>tH", ":ToggleTerm direction=float dir=~<CR>", desc = "Terminal Float (~)" },
     {
       "<C-_>",
       ":ToggleTerm direction=float<CR>",
@@ -54,7 +54,7 @@ return {
       persist_mode = false,
       close_on_exit = true,
       shell = vim.o.shell,
-      auto_scroll = true,
+      auto_scroll = false,
       autochdir = false,
       float_opts = {
         border = "curved",

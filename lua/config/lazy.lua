@@ -36,6 +36,7 @@ require("lazy").setup({
   install = {
     missing = true,
     colorscheme = {
+      "rose-pine",
       "tokyonight",
       "catpuccin",
       "onedark",
@@ -45,8 +46,9 @@ require("lazy").setup({
   },
   checker = { enabled = true, notify = false },
   change_detection = { enabled = true, notify = false },
+  ui = { border = "rounded" }
 })
 require("config.options")
 require("config.keymaps")
 require("config.colorscheme.init")
-vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme rose-pine]])

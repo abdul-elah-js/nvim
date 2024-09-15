@@ -45,6 +45,8 @@ return {
       button.key_format = "  %s"
     end
 
+    vim.api.nvim_set_hl(0, "DashboardHeader", { fg = "#c4a7e7" })
+
     -- close Lazy and re-open when the dashboard is ready
     if vim.o.filetype == "lazy" then
       vim.cmd.close()

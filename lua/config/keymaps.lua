@@ -4,7 +4,7 @@ local opts = function(desc)
   return { noremap = true, silent = true, desc = desc }
 end
 
--- escape insert
+-- Escape Insert
 keymap.set({ "i" }, "kj", "<Escape>", opts("Escape Insert"))
 keymap.set({ "i" }, "jk", "<Escape>", opts("Escape Insert"))
 
@@ -39,6 +39,11 @@ keymap.set({ "n" }, "<leader>wh", ":vertical resize -10", opts("- Width"))
 keymap.set({ "n" }, "<leader>wl", ":vertical resize +10", opts("+ Height"))
 keymap.set({ "n" }, "<leader>wd", ":close<CR>", opts("Close Window"))
 
+keymap.set({ "n" }, "<C-u>", "<C-u>zz", opts("Scroll Up"))
+keymap.set({ "n" }, "<C-d>", "<C-d>zz", opts("Scroll Down"))
+keymap.set({ "n" }, "<C-y>", "<C-y>zz", opts("Scroll Up"))
+keymap.set({ "n" }, "<C-e>", "<C-e>zz", opts("Scroll Down"))
+
 -- config
 keymap.set({ "n" }, "<leader>si", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
@@ -46,20 +51,27 @@ end, opts("Toggle inlay_hints"))
 keymap.set({ "n" }, "<leader>sw", ":set wrap!<CR>", opts("Toggle Wrap"))
 keymap.set({ "n" }, "<leader>sl", ":set number!<CR>", opts("Toggle Line Numbers"))
 keymap.set({ "n" }, "<leader>sr", ":set relativenumber!<CR>", opts("Toggle Relative Line Numbers"))
-keymap.set({ "n" }, "<leader>scr", vim.lsp.codelens.display, opts("Display Codelens"))
-keymap.set({ "n" }, "<leader>scr", vim.lsp.codelens.refresh, opts("Clear Codelens"))
-keymap.set({ "n" }, "<leader>scx", vim.lsp.codelens.clear, opts("Clear Codelens"))
+keymap.set({ "n" }, "<leader>sq", ":NoiceDismiss<CR>", opts("Dismiss Notifications"))
+keymap.set({ "n" }, "<leader>sx", ":nohl<CR>", opts("Remove Highlights"))
+keymap.set({ "n" }, "<leader>st", ":TSContextToggle<CR>", opts("Toggle TSContext"))
+keymap.set({ "n" }, "<leader>sCr", vim.lsp.codelens.display, opts("Display Codelens"))
+keymap.set({ "n" }, "<leader>sCr", vim.lsp.codelens.refresh, opts("Clear Codelens"))
+keymap.set({ "n" }, "<leader>sCx", vim.lsp.codelens.clear, opts("Clear Codelens"))
 
 -- Lazy
 keymap.set({ "n" }, "<leader>l", ":Lazy<CR>", opts("Lazy"))
 
-keymap.set({ "n" }, "<C-_>", ":ToggleTerm<CR>", opts("Toggle Terminal"))
-keymap.set({ "n" }, "<C-/>", ":ToggleTerm<CR>", opts("Toggle Terminal"))
+-- Terminal
+keymap.set({ "n", "x" }, "<C-_>", ":ToggleTerm<CR>", opts("Toggle Terminal"))
+keymap.set({ "n", "x" }, "<C-/>", ":ToggleTerm<CR>", opts("Toggle Terminal"))
+-- keymap.set({ "x" }, "<C-_>", "<C-\\><C-n>:ToggleTerm<CR>", opts("Toggle Terminal"))
+-- keymap.set({ "x" }, "<C-/>", "<C-\\><C-n>:ToggleTerm<CR>", opts("Toggle Terminal"))
 
-keymap.set({ "x" }, "<C-_>", "<C-\\><C-n>:ToggleTerm<CR>", opts("Toggle Terminal"))
-keymap.set({ "x" }, "<C-/>", "<C-\\><C-n>:ToggleTerm<CR>", opts("Toggle Terminal"))
-
---
--- keymap.set("n", "P", ":set paste<CR>P:set nopaste<CR>", opts)
--- keymap.set("x", "p", ':<C-u> paste<CR>gv"_dp:set nopaste<CR>', opts)
--- keymap.set("x", "P", ':<C-u> paste<CR>gv"_dP:set nopaste<CR>', opts)
+-- Buffers
+keymap.set({ "n" }, "<leader>bd", ":Bdelete<CR>", opts("Delete Buffer"))
+keymap.set({ "n" }, "<leader>bp", ":BufferLineTogglePin<CR>", opts("Pin/Unpin Buffer"))
+keymap.set({ "n" }, "<Tab>", ":BufferLineCycleNext<CR>", opts("Next Buffer"))
+keymap.set({ "n" }, "<S-Tab>", ":BufferLineCyclePrev<CR>", opts("Prev Buffer"))
+keymap.set({ "n" }, "<leader>bo", ":BufferLineCloseOthers<CR>", opts("Delete Others"))
+keymap.set({ "n" }, "<leader>br", ":BufferLineCloseRight<CR>", opts("Delete Right"))
+keymap.set({ "n" }, "<leader>bl", ":BufferLineCloseLeft<CR>", opts("Delete Left"))

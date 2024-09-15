@@ -1,6 +1,7 @@
 return {
   "stevearc/conform.nvim",
   cmd = "ConformInfo",
+  enabled = false,
   lazy = false,
   opts = {
     formatters_by_ft = {
