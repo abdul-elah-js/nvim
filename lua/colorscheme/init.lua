@@ -2,9 +2,9 @@ local colorscheme_group = vim.api.nvim_create_augroup("colorscheme_changed", {
   clear = true
 })
 
-local lualine_config = require("config.colorscheme.lualine")
-local bufferline_config = require("config.colorscheme.bufferline")
-local toggleterm_config = require("config.colorscheme.toggleterm")
+local lualine_config = require("colorscheme.lualine")
+local bufferline_config = require("colorscheme.bufferline")
+local toggleterm_config = require("colorscheme.toggleterm")
 
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     if bufferline_config[colorscheme] then
       bufferline_highlights = bufferline_config[colorscheme]()
     end
-    require("config.colorscheme.bufferline_utils").bufferline_setup(bufferline_highlights)
+    require("config.custom").bufferline_setup(bufferline_highlights)
 
     -- toggleterm
     if toggleterm_config[colorscheme] then

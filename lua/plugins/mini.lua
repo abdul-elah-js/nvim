@@ -2,7 +2,7 @@ return {
   {
     'echasnovski/mini.animate',
     version = '*',
-    enable = true,
+    enable = false,
     opts = {
       open = { enable = false },
       close = { enable = false },

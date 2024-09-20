@@ -26,9 +26,16 @@ vim.g.mapleader = " "
 vim.g.localmapleader = "\\"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.markdown_recommended_style = 0
 
+-- solve reading terraform filetype as tf
+vim.filetype.add({
+  extension = {
+    tf = "terraform"
+  }
+})
 
-
+require("config.utils");
 require("lazy").setup({
   spec = {
     { import = "plugins" },
@@ -50,5 +57,5 @@ require("lazy").setup({
 })
 require("config.options")
 require("config.keymaps")
-require("config.colorscheme.init")
+require("colorscheme.init")
 vim.cmd([[colorscheme rose-pine]])

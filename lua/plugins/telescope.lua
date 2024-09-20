@@ -43,102 +43,36 @@ return {
     }
   end,
   keys = {
+    { "<leader><space>", ":Telescope find_files<CR>",                                                  desc = "Find Files" },
+    { "<leader>/",       ":Telescope live_grep<CR>",                                                   desc = "Live Grep" },
+    { "<leader>fa",      function() builtin.find_files({ hidden = true, no_ignore = true }) end,       desc = "Find Files (all)" },
+    { "<leader>fA",      function() builtin.live_grep({ hidden = true, no_ignore = true }) end,        desc = "Live Grep (all)" },
+    { "<leader>fg",      builtin.git_files,                                                            desc = "Git Files" },
+    { "<leader>fG",      builtin.git_stash,                                                            desc = "Git Stash " },
+    { "<leader>fk",      ":Telescope keymaps<CR>",                                                     desc = "Keymaps" },
+    { '<leader>f"',      ":Telescope registers<CR>",                                                   desc = "Registers" },
+    { '<leader>f:',      ":Telescope commands<CR>",                                                    desc = "Commands" },
+    { '<leader>fh',      ":Telescope highlights<CR>",                                                  desc = "Highlights" },
+    { "<leader>fc",      function() builtin.find_files({ hidden = true, cwd = "~/.config/nvim" }) end, desc = "Config" },
     {
-      "<leader>/",
+      "<leader>fi",
       function()
-        utils.live_grep({ hidden = true, no_ignore = true })
-      end,
-      desc = "Live Grep (Root Dir)"
-    },
-    {
-      "<leader>?",
-      function()
-        local cwd = vim.fn.input("Start searching from: ")
-        utils.live_grep({ cwd = cwd, hidden = true, no_ignore = true })
-      end,
-      desc = "Live Grep (CWD)"
-    },
-    {
-      "<leader>ff",
-      function()
-        utils.find_files({ hidden = true })
-      end,
-      desc = "Find Files (Root Dir)"
-    },
-    {
-      "<leader><space>",
-      function()
-        utils.find_files({ hidden = true })
-      end,
-      desc = "Find Files (Root Dir)"
-    },
-
-    {
-      "<leader>fF",
-      function()
-        local cwd = vim.fn.input("Start searching from:")
-        utils.find_files({ cwd = cwd, hidden = true })
-      end,
-      desc = "Find Files (CWD)"
-    },
-    {
-      "<leader>fg",
-      function()
-        utils.git_files({ hidden = true, no_ignore = true })
-      end,
-      desc = "Find Git Files"
-    },
-    {
-      "<leader>fG",
-      function()
-        local cwd = vim.fn.input("Start searching from: ")
-        utils.git_files({ cwd = cwd, hidden = true, no_ignore = true })
-      end,
-      desc = "Find Git Files (CWD)"
-    },
-    {
-      "<leader>fs",
-      function()
-        local path = vim.fn.input("Path: ")
-        utils.find_files({ cwd = path, hidden = true, no_ignore = true })
-      end,
-      desc = "Search In Path"
-    },
-    {
-      "<leader>fc",
-      function()
-        utils.find_files({ cwd = "~/.config/nvim/", hidden = true, ignored = true })
-      end,
-      desc = "Find Config"
-    },
-    {
-      "<leader>f~",
-      function()
-        local cwd = vim.fn.input("Search in: ")
-        utils.find_files({ cwd = cwd, hidden = true, ignored = true })
+        vim.ui.input({ prompt = 'Directory to search: ' }, function(input)
+          if input then utils.find_files({ cwd = input }) end
+        end)
       end,
       desc = "Find Files In "
     },
     {
-      "<leader>fw",
+      "<leader>fI",
       function()
-        utils.live_grep()
+        vim.ui.input({ prompt = 'Directory to grep: ' }, function(input)
+          if input then
+            require('telescope.builtin').live_grep({ cwd = input })
+          end
+        end)
       end,
-      desc = "Live Grep (Root Dir)"
-    },
-    {
-      "<leader>fW",
-      function()
-        local cwd = vim.fn.input("Start searching from:")
-        utils.live_grep({ cwd = cwd })
-      end,
-      desc = "Live Grep (CWD)"
-    },
-    { "<leader>fk", builtin.keymaps,         desc = "Find Keymaps" },
-    { "<leader>f:", builtin.command_history, desc = "Find Command History" },
-    { "<leader>fo", builtin.vim_options,     desc = "Find Config" },
-    { '<leader>f"', builtin.registers,       desc = "Find Register" },
-    { "<leader>fN", builtin.notify,          desc = "Find Notifications" },
-    { "<leader>fr", builtin.resume,          desc = "Resume Picker" },
-  },
+      desc = "Live Grep In"
+    }
+  }
 }
