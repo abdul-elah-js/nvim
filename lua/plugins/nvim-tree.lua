@@ -4,6 +4,7 @@ local HEIGHT_RATIO = 0.8
 return {
   "nvim-tree/nvim-tree.lua",
   version = "*",
+  enable = false,
   lazy = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons",

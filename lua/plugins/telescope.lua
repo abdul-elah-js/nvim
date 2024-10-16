@@ -1,78 +1,119 @@
-local utils = require("utils.telescope")
-local builtin = require("telescope.builtin")
-local actions = require("telescope.actions")
-local tf_doc_actions = require("telescope._extensions.terraform_doc.actions")
-local tf_doc_opts = require("telescope._extensions.terraform_doc.config").opts
-
-local search_attach_mappings = function()
-  actions.select_default:replace(tf_doc_actions.doc_view(tf_doc_opts))
-  return true
-end
-
 return {
-  "nvim-telescope/telescope.nvim",
-  dependencies = {
-    "nvim-telescope/telescope-fzf-native.nvim",
-  },
-  cmd = "Telescope",
-  version = false,
-  opts = function()
-    return {
-      extensions = {
-        terraform_doc = {
-          search_attach_mappings = search_attach_mappings,
-          latest_provider_symbol = "  ",
-        }
-      },
-      defaults = {
-        layout_config = {
-          horizontal = {
-            preview_cutoff = 0
-          }
-        },
-        mappings = {
-          i = {
-            ["<C-j>"] = actions.preview_scrolling_down,
-            ["<C-k>"] = actions.preview_scrolling_up,
-          },
-          n = {
-            ["q"] = actions.close,
-          },
-        },
-      },
-    }
-  end,
-  keys = {
-    { "<leader><space>", ":Telescope find_files<CR>",                                                  desc = "Find Files" },
-    { "<leader>/",       ":Telescope live_grep<CR>",                                                   desc = "Live Grep" },
-    { "<leader>fa",      function() builtin.find_files({ hidden = true, no_ignore = true }) end,       desc = "Find Files (all)" },
-    { "<leader>fA",      function() builtin.live_grep({ hidden = true, no_ignore = true }) end,        desc = "Live Grep (all)" },
-    { "<leader>fg",      builtin.git_files,                                                            desc = "Git Files" },
-    { "<leader>fG",      builtin.git_stash,                                                            desc = "Git Stash " },
-    { "<leader>fk",      ":Telescope keymaps<CR>",                                                     desc = "Keymaps" },
-    { '<leader>f"',      ":Telescope registers<CR>",                                                   desc = "Registers" },
-    { '<leader>f:',      ":Telescope commands<CR>",                                                    desc = "Commands" },
-    { '<leader>fh',      ":Telescope highlights<CR>",                                                  desc = "Highlights" },
-    { "<leader>fc",      function() builtin.find_files({ hidden = true, cwd = "~/.config/nvim" }) end, desc = "Config" },
-    {
-      "<leader>fi",
-      function()
-        vim.ui.input({ prompt = 'Directory to search: ' }, function(input)
-          if input then utils.find_files({ cwd = input }) end
-        end)
-      end,
-      desc = "Find Files In "
-    },
-    {
-      "<leader>fI",
-      function()
-        vim.ui.input({ prompt = 'Directory to grep: ' }, function(input)
-          if input then
-            require('telescope.builtin').live_grep({ cwd = input })
-          end
-        end)
-      end,
-      desc = "Live Grep In"
-    }
-  }
+	"nvim-telescope/telescope.nvim",
+	dependencies = {
+		{
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "make",
+			cond = function()
+				return vim.fn.executable("make") == 1
+			end,
+		},
+	},
+	cmd = "Telescope",
+	version = false,
+	opts = function()
+		local actions = require("telescope.actions")
+		return {
+			defaults = {
+				file_ignore_patterns = {
+					"node_modules/",
+					".git/",
+				},
+				layout_config = {
+					horizontal = {
+						preview_cutoff = 0,
+					},
+				},
+				mappings = {
+					i = {
+						["<C-c>"] = actions.close,
+						["<C-j>"] = actions.preview_scrolling_down,
+						["<C-k>"] = actions.preview_scrolling_up,
+						["<C-l>"] = actions.preview_scrolling_right,
+						["<C-h>"] = actions.preview_scrolling_left,
+					},
+					n = {
+						["q"] = actions.close,
+						["<C-c>"] = actions.close,
+						["<C-d>"] = actions.preview_scrolling_down,
+						["<C-u>"] = actions.preview_scrolling_up,
+						["<C-l>"] = actions.preview_scrolling_right,
+						["<C-h>"] = actions.preview_scrolling_left,
+					},
+				},
+			},
+		}
+	end,
+	keys = {
+		{
+			"<leader><space>",
+			function()
+				require("telescope.builtin").find_files({ hidden = true })
+			end,
+			desc = "Find Files",
+		},
+		{ "<leader>/", ":Telescope live_grep<CR>", desc = "Live Grep" },
+		{
+			"<leader>fa",
+			function()
+				require("telescope.builtin").find_files({ hidden = true, no_ignore = true })
+			end,
+			desc = "Find Files (all)",
+		},
+		{
+			"<leader>fA",
+			function()
+				require("telescope.builtin").live_grep({ hidden = true, no_ignore = true })
+			end,
+			desc = "Live Grep (all)",
+		},
+		{
+			"<leader>fg",
+			function()
+				require("telescope.builtin").git_files()
+			end,
+			desc = "Git Files",
+		},
+		{
+			"<leader>fG",
+			function()
+				require("telescope.builtin").git_stash()
+			end,
+			desc = "Git Stash",
+		},
+		{ "<leader>fk", ":Telescope keymaps<CR>", desc = "Keymaps" },
+		{ '<leader>f"', ":Telescope registers<CR>", desc = "Registers" },
+		{ "<leader>f:", ":Telescope command_history<CR>", desc = "Commands" },
+		{ "<leader>fh", ":Telescope highlights<CR>", desc = "Highlights" },
+		{
+			"<leader>fc",
+			function()
+				require("telescope.builtin").find_files({ hidden = true, cwd = "~/.config/nvim/lua/config" })
+			end,
+			desc = "Config",
+		},
+		{
+			"<leader>fp",
+			function()
+				require("telescope.builtin").find_files({ hidden = true, cwd = "~/.config/nvim/lua/plugins" })
+			end,
+			desc = "Plugins",
+		},
+		{
+			"<leader>fr",
+			":Telescope resume<CR>",
+			desc = "Resume",
+		},
+		{
+			"<leader>fI",
+			function()
+				vim.ui.input({ prompt = "Directory to grep: " }, function(input)
+					if input then
+						require("telescope.builtin").live_grep({ cwd = input })
+					end
+				end)
+			end,
+			desc = "Live Grep In",
+		},
+	},
 }

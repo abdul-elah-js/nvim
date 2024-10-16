@@ -1,10 +1,14 @@
 return {
-  "rcarriga/nvim-notify",
-  opts = {
-    background_colour = "#000000",
-    render = "minimal",
-  },
-  -- keys = {
-  --   { "<leader>snd", ":lua require('nvim-notify').dismiss({ silent = true, pending = true })<CR>", "Dismiss All" },
-  -- },
+	"rcarriga/nvim-notify",
+	enabled = true,
+	opts = function()
+		vim.notify = require("notify")
+		require("telescope").load_extension("notify")
+		return {
+			background_colour = "#000000",
+			render = "minimal",
+			stages = "static",
+			minimum_width = 18,
+		}
+	end,
 }
