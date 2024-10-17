@@ -27,9 +27,7 @@ M.require = function(path)
 end
 
 M.merge = function(base, overrides)
-	local merged = vim.tbl_deep_extend("force", {}, base, overrides)
-	print(merged)
-	return merged
+	return vim.tbl_deep_extend("force", {}, base, overrides)
 end
 
 M.is_floating_window_open = function()
