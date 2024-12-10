@@ -1,21 +1,23 @@
 local utils = require("config.utils")
+local toggle = utils.toggle
 local toggles = require("config.toggles")
 local opts = utils.opts
 
 local keymap = vim.keymap
+local o = vim.o
+local diagnostic = vim.diagnostic
+local inlay_hint = vim.lsp.inlay_hint
 
 -- Source nvim
-keymap.set({ "n" }, "<leader>r", ":source $MYVIMRC<CR>", opts("Reload Config"))
+keymap.set("n", "<leader>r", ":source $MYVIMRC<CR>", opts("Reload Config"))
 
 -- Escape Insert
-keymap.set({ "i" }, "kj", "<Escape>", opts("Escape Insert"))
-keymap.set({ "i" }, "jk", "<Escape>", opts("Escape Insert"))
+keymap.set("i", "kj", "<Escape>", opts("Escape Insert"))
+keymap.set("i", "jk", "<Escape>", opts("Escape Insert"))
 
-keymap.set({ "c" }, "<C-h>", "<Left>", opts("Left"))
-keymap.set({ "c" }, "<C-l>", "<Right>", opts("Right"))
-
--- run
-keymap.set({ "n" }, "<leader>ry", utils.copy_path, opts("[R]un: Copy Absolute Path"))
+-- TODO: fix cursor movement
+keymap.set("c", "<C-h>", "<Left>", opts("Left"))
+keymap.set("c", "<C-l>", "<Right>", opts("Right"))
 
 -- move line/selection up/down
 keymap.set("n", "<A-j>", ":m .+1<CR>==", opts("Move Line Upwards"))
@@ -31,61 +33,70 @@ keymap.set("n", "<C-s>", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 keymap.set("n", "U", "<C-r>", opts("Redo"))
 
 -- Oil
-keymap.set({ "n" }, "-", require("oil").toggle_float, opts("Oil (Float)"))
-keymap.set({ "n" }, "<leader>-", ":Oil<CR>", opts("Oil (Buffer)"))
+keymap.set("n", "-", require("oil").toggle_float, opts("Oil (Float)"))
 
 -- indentation
-keymap.set({ "x" }, "<", "<gv", opts("Indent Selection Left"))
-keymap.set({ "x" }, ">", ">gv", opts("Indent Selection Right"))
-keymap.set({ "n" }, "<", "<<", opts("Indent Line Left"))
-keymap.set({ "n" }, ">", ">>", opts("Indent Line Right"))
+keymap.set("x", "<", "<gv", opts("Indent Selection Left"))
+keymap.set("x", ">", ">gv", opts("Indent Selection Right"))
+keymap.set("n", "<", "<<", opts("Indent Line Left"))
+keymap.set("n", ">", ">>", opts("Indent Line Right"))
 
 -- registers
 keymap.set({ "n", "x" }, '<leader>"', '"_', opts("Blackhole Register"))
-keymap.set({ "x" }, "<leader>c", '"_c', opts("Change Without Yanking"))
-keymap.set({ "x" }, "<leader>d", '"_d', opts("Delete Without Yanking"))
-keymap.set({ "x" }, "<leader>p", '"_dP', opts("Paste Without Yanking"))
-keymap.set({ "n" }, "<leader>c", '"_c', opts("Change Without Yanking"), nil, false)
-keymap.set({ "n" }, "<leader>d", '"_d', opts("Delete Without Yanking"), nil, false)
+keymap.set("x", "<leader>c", '"_c', opts("Change Without Yanking"))
+keymap.set("x", "<leader>d", '"_d', opts("Delete Without Yanking"))
+keymap.set("x", "<leader>p", '"_dP', opts("Paste Without Yanking"))
 
 -- quit
 keymap.set({ "n", "v" }, "<leader>qq", ":qa!<CR>", opts("Quit All (No Save)"))
 keymap.set({ "n", "v" }, "<leader>qa", ":qall<CR>", opts("Quit All (Save)"))
 
--- toggles
-keymap.set({ "n" }, "<leader>tn", toggles.toggle_numbers, opts("Line Numbers"))
-keymap.set({ "n" }, "<leader>tr", toggles.toggle_relative_numbers, opts("Relative Numbers"))
-keymap.set({ "n" }, "<leader>tw", toggles.toggle_wrap, opts("Wrap"))
-keymap.set({ "n" }, "<leader>ti", toggles.toggle_inlay_hints, opts("Inlay Hints"))
-keymap.set({ "n" }, "<leader>tx", toggles.toggle_diagnostics, opts("Diagnostics"))
-keymap.set("n", "<leader>tI", toggles.toggle_virtual_text, opts("Toggle inline diagnostics"))
+-- Editor & LSP
+-- keymap.set("n", "<C-t>ln", toggle("numbers", o.number), opts("Line Numbers"))
+-- keymap.set("n", "<C-t>rn", toggle("relative numbers", o.relativenumber), opts("Relative Numbers"))
+-- keymap.set("n", "<C-t>tw", toggle("text wrap", o.wrap), opts("Text Wrap"))
+-- keymap.set("n", "<C-t>i", toggle("inlay hints", inlay_hint.is_enabled(), inlay_hint.enable), opts("Inlay Hints"))
+-- keymap.set("n", "<C-t>x", toggle("diagnostics", diagnostic.is_enabled(), diagnostic.enable), opts("Diagnostics"))
+keymap.set("n", "<C-t>tc", ":TSContextToggle<CR>", opts("TSContext Toggle"))
 
-keymap.set({ "n" }, "<leader>tgs", toggles.toggle_gitsigns, opts("Toggle Signs"))
-keymap.set({ "n" }, "<leader>tgb", toggles.toggle_git_blame, opts("Toggle Inline Blame"))
-keymap.set({ "n" }, "<leader>tgl", toggles.toggle_git_line_highlight, opts("Toggle Line Highlight"))
-keymap.set({ "n" }, "<leader>tgw", toggles.toggle_git_word_diff, opts("Toggle Word Diff Highlight"))
-keymap.set({ "n" }, "<leader>tgn", toggles.toggle_git_line_number_highlight, opts("Toggle Line Number Highlight"))
+keymap.set("n", "<leader>d", ":NoiceDismiss<CR>", opts("Dismiss Notifications"))
+keymap.set("n", "<leader>no", ":nohl<CR>", opts("No Search Highlights"))
+keymap.set("n", "<leader>na", ":NoiceAll<CR>", opts("Notifications"))
 
-keymap.set({ "n" }, "<leader>tc", ":TSContextToggle<CR>", opts("TSContext Toggle"))
-keymap.set({ "n" }, "<leader>nd", ":NoiceDismiss<CR>", opts("Dismiss Notifications"))
-keymap.set({ "n" }, "<leader>no", ":nohl<CR>", opts("No Search Highlights"))
-keymap.set({ "n" }, "<leader>na", ":NoiceAll<CR>", opts("Notifications"))
-
--- Lsp
-keymap.set({ "n" }, "<leader>ll", toggles.lsp_log, opts("Log File"))
-keymap.set({ "n" }, "<leader>ls", toggles.lsp_start, opts("Start"))
-keymap.set({ "n" }, "<leader>lr", toggles.lsp_restart, opts("Restart"))
-keymap.set({ "n" }, "<leader>lx", toggles.lsp_stop, opts("Stop"))
-keymap.set({ "n" }, "<leader>li", toggles.lsp_info, opts("Logs"))
-keymap.set({ "n" }, "<leader>lI", toggles.lsp_install, opts("Install"))
-keymap.set({ "n" }, "<leader>lU", toggles.lsp_uninstall, opts("Uninstall"))
+-- Git
+local g = require("gitsigns.config").config
+-- keymap.set("n", "<leader>gs", toggle("Git Signs", g.signcolumn, ":Gitsigns toggle_signs"), opts("Signs"))
+-- keymap.set("n", "<leader>gw", toggle("Git Word DIFF", g.word_diff, ":Gitsigns toggle_git_word_diff"), opts("Word DIFF"))
+-- keymap.set(
+-- 	"n",
+-- 	"<leader>gb",
+-- 	toggle("Git Blame", g.current_line_blame, ":Gitsigns toggle_current_line_blame"),
+-- 	opts("Inline Blame")
+-- )
+-- keymap.set(
+-- 	"n",
+-- 	"<leader>gh",
+-- 	toggle("Git Line Highlight", g.linehl, ":Gitsigns toggle_git_line_highlight"),
+-- 	opts("Line Highlights")
+-- )
+-- keymap.set(
+-- 	"n",
+-- 	"<leader>glh",
+-- 	toggle("Git Line Number Highlight", g.numhl, ":Gitsigns toggle_git_line_number_highlight"),
+-- 	opts("Line Number Highlights")
+-- )
+--
+-- -- Lsp
+-- keymap.set("n", "<leader>ll", toggle(nil, nil, ":LspInfo"), opts("Log File"))
+-- keymap.set("n", "<leader>ls", toggle(nil, nil, ":LspStart"), opts("Start"))
+-- keymap.set("n", "<leader>lr", toggle(nil, nil, ":LspRestart"), opts("Restart"))
+-- keymap.set("n", "<leader>lS", toggle(nil, nil, ":LspStop"), opts("Stop"))
+-- keymap.set("n", "<leader>li", toggle(nil, nil, ":LspLog"), opts("Logs"))
+-- keymap.set("n", "<leader>la", toggle(nil, nil, ":LspInstall"), opts("Install"))
+-- keymap.set("n", "<leader>lu", toggle(nil, nil, ":LspUninstall"), opts("Uninstall"))
 
 -- Lazy
 keymap.set({ "n" }, "<leader>L", ":Lazy<CR>", opts("Lazy"))
-
--- Terminal
-keymap.set({ "n", "x" }, "<C-_>", ":ToggleTerm<CR>", opts("Toggle Terminal"))
-keymap.set({ "n", "x" }, "<C-/>", ":ToggleTerm<CR>", opts("Toggle Terminal"))
 
 -- Tabs
 keymap.set({ "n" }, "<leader>T", ":tabnew<CR>", opts("New"))

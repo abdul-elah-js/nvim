@@ -35,11 +35,27 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Confirm selection
 				}),
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp" }, -- LSP completion source
+					{
+						name = "nvim_lsp",
+						entry_filter = function(entry) -- remove long text w no meaning
+							local text = entry:get_insert_text()
+							for seq in text:gmatch("[^%s]+") do
+								if #seq >= 20 then
+									return false
+								end
+								return true
+							end
+						end,
+					}, -- LSP completion source
 					{ name = "luasnip" }, -- Snippet completion source
 					{ name = "buffer" }, -- Buffer completion source
+					{ name = "cmdline" }, -- Command line
 					{ name = "path" }, -- Path completion source
 				}),
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
+				},
 				---@diagnostic disable-next-line: missing-fields
 				formatting = {
 					format = function(entry, vim_item)

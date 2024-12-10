@@ -1,10 +1,31 @@
 return {
 	{
-		"EdenEast/nightfox.nvim",
-		opts = {
-			transparent = true,
-		},
+		"tiagovla/tokyodark.nvim",
+		opts = {},
+		config = function()
+			require("tokyodark").setup({
+				transparent_background = true,
+				custom_highlights = function(_, p)
+					return {
+						Float = { bg = "NONE" },
+						NormalFloat = { bg = "NONE" },
+						Directory = { bg = "NONE" },
+						WhichKey = { fg = p.red, underline = false },
+						WhichKeyIcon = { fg = p.red, underline = false },
+						WhichKeyGroup = { fg = p.blue },
+						Function = { fg = p.blue },
+					}
+				end,
+			})
+			vim.cmd("colorscheme " .. "tokyodark")
+		end,
 	},
+	-- {
+	-- 	"EdenEast/nightfox.nvim",
+	-- 	opts = {
+	-- 		transparent = true,
+	-- 	},
+	-- },
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",

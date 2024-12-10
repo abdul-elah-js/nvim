@@ -1,8 +1,3 @@
-local utils = require("config.utils")
-
-local colorscheme = require("config.colorscheme").safe_name
-local theme_config = utils.require("config.themes." .. colorscheme .. ".bufferline")
-
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",
@@ -24,7 +19,7 @@ return {
 		{ "<leader>b1", ":BufferLineGoTo 1<CR>", desc = "Focus First Buffer" },
 	},
 	config = function()
-		require("bufferline").setup(utils.merge({
+		require("bufferline").setup({
 			options = {
 				groups = {
 					items = {
@@ -32,7 +27,6 @@ return {
 					},
 				},
 				mode = "buffers",
-				-- style_preset = bufferline.style_preset.default,
 				color_icons = true,
 				close_icon = "",
 				modified_icon = "●",
@@ -78,6 +72,6 @@ return {
 					return not excluded_buftypes[buftype] and not excluded_filetypes[filetype]
 				end,
 			},
-		}, { options = theme_config.colorscheme_overrides }))
+		})
 	end,
 }

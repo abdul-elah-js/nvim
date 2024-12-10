@@ -1,12 +1,6 @@
-local utils = require("config.utils")
-
-local colorscheme = require("config.colorscheme").safe_name
-local theme_config = utils.require("config.themes." .. colorscheme .. ".lualine")
-
 return {
 	"nvim-lualine/lualine.nvim",
 	enabled = true,
-	event = "VeryLazy",
 	init = function()
 		vim.g.lualine_laststatus = vim.o.laststatus
 		if vim.fn.argc(-1) > 0 then
@@ -15,15 +9,16 @@ return {
 			vim.o.laststatus = 0
 		end
 	end,
-	opts = function()
-		return utils.merge({
+	config = function()
+		require("lualine").setup({
 			options = {
+				theme = "auto",
 				icons_enabled = true,
 				globalstatus = true,
 				refresh = {
-					statusline = 1000,
-					tabline = 1000,
-					winbar = 1000,
+					statusline = 100,
+					tabline = 100,
+					winbar = 100,
 				},
 			},
 			sections = {
@@ -65,6 +60,6 @@ return {
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},
-		}, theme_config.colorscheme_overrides)
+		})
 	end,
 }

@@ -9,31 +9,20 @@ return {
 				["vim.lsp.util.stylize_markdown"] = true,
 				["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
 			},
-			-- hover = {
-			-- 	enabled = true,
-			-- },
-			-- signature = {
-			-- 	enabled = false,
-			-- },
-			-- message = {
-			-- 	enabled = false,
-			-- },
-			-- documentation = {
-			-- 	enabled = false,
-			-- },
 		},
 		views = {
 			cmdline_popup = {
-				position = {
-					row = 5,
-					col = "50%",
+				border = {
+					style = "none",
+					padding = { 2, 3 },
 				},
-				size = {
-					width = 60,
-					height = "auto",
+				filter_options = {},
+				win_options = {
+					winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
 				},
 			},
 			popupmenu = {
+				enabled = false,
 				relative = "editor",
 				position = {
 					row = 8,

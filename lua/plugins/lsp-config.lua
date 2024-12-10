@@ -1,15 +1,6 @@
 local Opts = require("config.utils").opts
 return {
 	{
-		"ANGkeith/telescope-terraform-doc.nvim",
-		config = function()
-			require("telescope").load_extension("terraform_doc")
-		end,
-		lazy = true,
-		event = { "BufEnter *.tf" },
-	},
-
-	{
 		"neovim/nvim-lspconfig", -- connect neovim to lsp server
 		dependencies = {
 			{
@@ -22,7 +13,6 @@ return {
 			{ "folke/neodev.nvim", opts = {} },
 		},
 		event = "VeryLazy",
-		keys = {},
 		opts = {
 			diagnostics = {
 				virtual_text = true,
@@ -47,41 +37,23 @@ return {
 			},
 		},
 		config = function(_, opts)
+			local builtin = require("telescope.builtin")
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("iLspAttach", { clear = true }),
 				callback = function(event)
+					print("how often am I running")
 					-- Keymaps
 					local keymap = vim.keymap
-					keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, Opts("[G]oto [D]efinition"))
-					keymap.set("n", "gr", require("telescope.builtin").lsp_references, Opts("[G]oto [R]eferences"))
-					keymap.set(
-						"n",
-						"gI",
-						require("telescope.builtin").lsp_implementations,
-						Opts("[G]oto [I]mplementation")
-					)
-					keymap.set(
-						"n",
-						"<leader>cD",
-						require("telescope.builtin").lsp_type_definitions,
-						Opts("Type [D]efinition")
-					)
-					keymap.set(
-						"n",
-						"<leader>cs",
-						require("telescope.builtin").lsp_document_symbols,
-						Opts("[D]ocument [S]ymbols")
-					)
-					keymap.set(
-						"n",
-						"<leader>cS",
-						require("telescope.builtin").lsp_dynamic_workspace_symbols,
-						Opts("[W]orkspace [S]ymbols")
-					)
-					keymap.set("n", "<leader>cr", vim.lsp.buf.rename, Opts("[R]e[n]ame"))
-					keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, Opts("[C]ode [A]ction"))
+					keymap.set("n", "gd", builtin.lsp_definitions, Opts("Goto Definition"))
+					keymap.set("n", "gr", builtin.lsp_references, Opts("Goto References"))
+					keymap.set("n", "gI", builtin.lsp_implementations, Opts("Goto Implementation"))
+					keymap.set("n", "<leader>cD", builtin.lsp_type_definitions, Opts("Type Definition"))
+					keymap.set("n", "<leader>cs", builtin.lsp_document_symbols, Opts("Document Symbols"))
+					keymap.set("n", "<leader>cS", builtin.lsp_dynamic_workspace_symbols, Opts("Workspace Symbols"))
+					keymap.set("n", "<leader>cr", vim.lsp.buf.rename, Opts("Rename"))
+					keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, Opts("Code Action"))
 					keymap.set("n", "K", vim.lsp.buf.hover, Opts("Hover Documentation"))
-					keymap.set("n", "gD", vim.lsp.buf.declaration, Opts("[G]oto [D]eclaration"))
+					keymap.set("n", "gD", vim.lsp.buf.declaration, Opts("Goto Declaration"))
 					keymap.set("n", "<leader>xl", vim.diagnostic.setloclist, Opts("Diagnostics List"))
 					keymap.set("n", "]d", vim.diagnostic.goto_next, Opts("Next Diagnostic"))
 					keymap.set("n", "[d", vim.diagnostic.goto_prev, Opts("Previous Diagnostic"))
@@ -210,193 +182,6 @@ return {
 					end,
 				},
 			})
-
-			--
-			--
-			--
-			--    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-			-- 	border = "rounded",
-			-- 	max_width = 50,
-			-- 	max_height = 10,
-			-- 	focusable = true,
-			-- 	focus = false,
-			-- })
-			--
-			-- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-			-- 	border = "rounded",
-			-- 	max_width = 50,
-			-- 	max_height = 10,
-			-- 	focusable = true,
-			-- 	focus = false,
-			-- })
-			--
-			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
-			-- local on_attach = function(client, bufnr)
-			-- 	-- autoformat on save is handled by conform
-			--
-			-- 	if client.server_capabilities.renameProvider then
-			-- 		vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, Opts("Rename Symbol"))
-			-- 	end
-			--
-			-- 	if client.server_capabilities.definitionProvider then
-			-- 		vim.keymap.set("n", "<leader>cd", vim.lsp.buf.definition, Opts("Go To Definition"))
-			-- 	end
-			--
-			-- 	if client.server_capabilities.codeActionProvider then
-			-- 		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, Opts("Code Action"))
-			-- 	end
-			--
-			-- 	if client.server_capabilities.hoverProvider then
-			-- 		vim.keymap.set("n", "<leader>ch", vim.lsp.buf.hover, Opts("Hover"))
-			-- 	end
-			--
-			-- 	if client.server_capabilities.signatureHelp then
-			-- 		vim.keymap.set("n", "<leader>ck", vim.lsp.buf.signature_help, Opts("Signature Help"))
-			-- 	end
-			--
-			-- 	if client.server_capabilities.implementationProvider then
-			-- 		vim.keymap.set("n", "<leader>ci", vim.lsp.buf.implementation, Opts("Go To Implementation"))
-			-- 	end
-			--
-			-- 	if client.server_capabilities.typeDefinitionProvider then
-			-- 		vim.keymap.set("n", "<leader>ct", vim.lsp.buf.type_definition, Opts("Go To Type Definition"))
-			-- 	end
-			--
-			-- 	if client.server_capabilities.referencesProvider then
-			-- 		vim.keymap.set("n", "<leader>cR", vim.lsp.buf.references, Opts("Show References"))
-			-- 	end
-			--
-			-- 	if client.server_capabilities.inlayHintProvider then
-			-- 		vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-			-- 	end
-			--
-			-- 	if client.server_capabilities.completionProvider then
-			-- 		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-			-- 	end
-			-- end
-
-			-- lspconfig.ansiblels.setup({
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	cmd = { "ansible-language-server", "--stdio" },
-			-- 	filetypes = { "yaml.ansible" },
-			-- 	root_dir = lspconfig.util.root_pattern("ansible.cfg", ".git", "playbooks/", "roles/", "inventories/"),
-			-- })
-			--
-			-- lspconfig.jsonls.setup({
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	cmd = { "vscode-json-language-server", "--stdio" },
-			-- 	filetypes = { "json", "jsonc" },
-			-- })
-			--
-			-- lspconfig.sqlls.setup({
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	root_dir = lspconfig.util.root_pattern(".git", "init.sql", "schema.sql", "sqls.config.json"),
-			-- 	cmd = { "sql-language-server", "up", "--method", "stdio" },
-			-- 	filetypes = { "sql" },
-			-- })
-			--
-			-- lspconfig.ts_ls.setup({
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	settings = {
-			-- 		preferences = {
-			-- 			importModuleSpecifierPreference = "non-relative",
-			-- 		},
-			-- 	},
-			-- 	filetypes = {
-			-- 		"javascript",
-			-- 		"typescript",
-			-- 		"javascriptreact",
-			-- 		"typescriptreact",
-			-- 	},
-			-- })
-			--
-			-- lspconfig.lua_ls.setup({
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	settings = {
-			-- 		Lua = {
-			-- 			runtime = {
-			-- 				version = "LuaJIT",
-			-- 			},
-			-- 			codelens = {
-			-- 				enable = false,
-			-- 			},
-			-- 			hint = {
-			-- 				enable = true,
-			-- 				setType = false,
-			-- 				paramType = true,
-			-- 			},
-			-- 			diagnostics = {
-			-- 				globals = { "vim" },
-			-- 			},
-			-- 			workspace = {
-			-- 				library = vim.api.nvim_get_runtime_file("", true),
-			-- 				checkThirdParty = false, -- Optional: Disable third-party checking for a faster startup
-			-- 			},
-			-- 			telemetry = {
-			-- 				enable = false, -- Do not send telemetry data containing a randomized but unique identifier
-			-- 			},
-			-- 		},
-			-- 	},
-			-- })
-			--
-			-- lspconfig.terraformls.setup({
-			-- 	on_attach = function(client, bufnr)
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"<leader>cT",
-			-- 			":Telescope terraform_doc full_name=hashicorp/google<CR>",
-			-- 			Opts("Terraform Google Docs")
-			-- 		)
-			-- 		on_attach(client, bufnr)
-			-- 	end,
-			-- 	capabilities = capabilities,
-			-- 	cmd = { "terraform-ls", "serve" },
-			-- 	filetypes = { "terraform", "hcl", "tf", "tfvars" },
-			-- 	root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
-			-- 	settings = {
-			-- 		terraform = {
-			-- 			logLevel = "error",
-			-- 			fileWatcher = false,
-			-- 		},
-			-- 	},
-			-- })
-			--
-			-- lspconfig.yamlls.setup({
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	filetypes = { "yaml" },
-			-- 	cmd = { "yaml-language-server", "--stdio" },
-			-- 	root_dir = lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
-			-- 	single_file_support = true,
-			-- })
-			--
-			-- lspconfig.intelephense.setup({
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	cmd = { "intelephense", "--stdio" },
-			-- 	filetypes = { "php" },
-			-- 	root_dir = lspconfig.util.root_pattern("composer.json", ".git"),
-			-- })
-			--
-			-- lspconfig.dockerls.setup({
-			-- 	settings = {
-			-- 		docker = {
-			-- 			languageserver = {
-			-- 				formatter = {
-			-- 					ignoreMultilineInstructions = true,
-			-- 				},
-			-- 			},
-			-- 		},
-			-- 	},
-			-- })
-			--
-			-- lspconfig.docker_compose_language_service.setup({})
-
 			return opts
 		end,
 	},

@@ -24,6 +24,7 @@ vim.opt.rtp:prepend(lazypath)
 require("config.utils")
 require("config.options")
 require("config.filetypes")
+require("config.autocmds")
 require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
@@ -32,8 +33,7 @@ require("lazy").setup({
 		missing = true,
 		colorscheme = {
 			"rose-pine",
-			"tokyonight",
-			"nightfox",
+			"tokyodark",
 		},
 	},
 	checker = { enabled = true, notify = false },
@@ -41,7 +41,3 @@ require("lazy").setup({
 	ui = { border = "rounded" },
 })
 require("config.keymaps")
-
--- colorscheme
-local colorscheme = require("config.colorscheme")
-colorscheme.apply("nightfox")
