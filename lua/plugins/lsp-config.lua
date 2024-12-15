@@ -1,15 +1,10 @@
-local Opts = require("config.utils").opts
+local k = require("config.utils").keymap
 return {
 	{
 		"neovim/nvim-lspconfig", -- connect neovim to lsp server
 		dependencies = {
-			{
-				"williamboman/mason.nvim", -- lsp servers package manager
-				config = true,
-			},
-			{
-				"williamboman/mason-lspconfig", -- configurations bridge between mason and nvim-lspconfig
-			},
+			{ "williamboman/mason.nvim", config = true }, -- lsp servers package manager
+			{ "williamboman/mason-lspconfig" }, -- configurations bridge between mason and nvim-lspconfig
 			{ "folke/neodev.nvim", opts = {} },
 		},
 		event = "VeryLazy",
@@ -41,23 +36,21 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("iLspAttach", { clear = true }),
 				callback = function(event)
-					print("how often am I running")
 					-- Keymaps
-					local keymap = vim.keymap
-					keymap.set("n", "gd", builtin.lsp_definitions, Opts("Goto Definition"))
-					keymap.set("n", "gr", builtin.lsp_references, Opts("Goto References"))
-					keymap.set("n", "gI", builtin.lsp_implementations, Opts("Goto Implementation"))
-					keymap.set("n", "<leader>cD", builtin.lsp_type_definitions, Opts("Type Definition"))
-					keymap.set("n", "<leader>cs", builtin.lsp_document_symbols, Opts("Document Symbols"))
-					keymap.set("n", "<leader>cS", builtin.lsp_dynamic_workspace_symbols, Opts("Workspace Symbols"))
-					keymap.set("n", "<leader>cr", vim.lsp.buf.rename, Opts("Rename"))
-					keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, Opts("Code Action"))
-					keymap.set("n", "K", vim.lsp.buf.hover, Opts("Hover Documentation"))
-					keymap.set("n", "gD", vim.lsp.buf.declaration, Opts("Goto Declaration"))
-					keymap.set("n", "<leader>xl", vim.diagnostic.setloclist, Opts("Diagnostics List"))
-					keymap.set("n", "]d", vim.diagnostic.goto_next, Opts("Next Diagnostic"))
-					keymap.set("n", "[d", vim.diagnostic.goto_prev, Opts("Previous Diagnostic"))
-					keymap.set("n", "<leader>xo", vim.diagnostic.open_float, Opts("Show Diagnostic"))
+					k("n", "gd", builtin.lsp_definitions, "To Definition")
+					k("n", "gr", builtin.lsp_references, "To References")
+					k("n", "gI", builtin.lsp_implementations, "To Implementation")
+					k("n", "<leader>cD", builtin.lsp_type_definitions, "Type Definition")
+					k("n", "<leader>cs", builtin.lsp_document_symbols, "Document Symbols")
+					k("n", "<leader>cS", builtin.lsp_dynamic_workspace_symbols, "Workspace Symbols")
+					k("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
+					k("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+					k("n", "K", vim.lsp.buf.hover, "Hover Documentation")
+					k("n", "gD", vim.lsp.buf.declaration, "To Declaration")
+					k("n", "<leader>xl", vim.diagnostic.setloclist, "Diagnostics List")
+					k("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
+					k("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
+					k("n", "<leader>xo", vim.diagnostic.open_float, "Show Diagnostic")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client and client.server_capabilities.documentHighlightProvider then
@@ -87,9 +80,9 @@ return {
 
 					-- inlay hints
 					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-						keymap.set("n", "<leader>th", function()
+						k("n", "<C-t>h", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-						end)
+						end, "Toggle Inlay Hints")
 					end
 				end,
 			})

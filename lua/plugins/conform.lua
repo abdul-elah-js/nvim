@@ -82,7 +82,7 @@ return {
 				timeout_ms = 5000,
 				async = true,
 			})
-		end, Opts("Format Buffer or Selection"))
+		end, Opts("Forma(t) buffer"))
 		vim.api.nvim_create_user_command("FormatDisable", function(args)
 			if args.bang then
 				-- FormatDisable! will disable formatting just for this buffer

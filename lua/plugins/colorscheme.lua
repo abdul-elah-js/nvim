@@ -39,15 +39,16 @@ return {
 				highlight_groups = {
 					Comment = { bg = "NONE", fg = "subtle" },
 					Cursor = { fg = "rose", bg = "rose" },
-					Visual = { bg = "highlight_high" },
-					VisualNOS = { bg = "highlight_high" },
+					Visual = { fg = "#e0def4", bg = "#524f67" },
+					VisualNOS = { fg = "#e0def4", bg = "#524f67" },
 					TelescopeBorder = { fg = "highlight_high", bg = "none" },
 					TelescopeNormal = { bg = "none" },
 					TelescopeResultsNormal = { fg = "subtle", bg = "none" },
-					TelescopeSelection = { fg = "text", bg = "overlay" },
+					TelescopeSelection = { fg = "text", bg = "highlight_high" },
 					TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
 				},
 			})
+			vim.cmd([[colorscheme rose-pine]])
 		end,
 	},
 
@@ -62,10 +63,13 @@ return {
 	-- 	"folke/tokyonight.nvim",
 	-- 	lazy = false,
 	-- 	priority = 1000,
-	-- 	opts = {
-	-- 		style = "moon",
-	-- 		transparent = true,
-	-- 	},
+	-- 	config = function()
+	-- 		require("tokyonight").setup({
+	-- 			style = "moon",
+	-- 			transparent = true,
+	-- 		})
+	-- 		-- vim.cmd([[colorscheme tokyonight]])
+	-- 	end,
 	-- },
 	--
 	-- {

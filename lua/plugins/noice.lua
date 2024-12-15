@@ -13,8 +13,8 @@ return {
 		views = {
 			cmdline_popup = {
 				border = {
-					style = "none",
-					padding = { 2, 3 },
+					style = "double",
+					padding = { 0.5 },
 				},
 				filter_options = {},
 				win_options = {
@@ -37,7 +37,7 @@ return {
 					padding = { 0, 1 },
 				},
 				win_options = {
-					winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+					winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticWarn" },
 				},
 			},
 		},
@@ -48,10 +48,6 @@ return {
 			lsp_doc_border = true, -- enables an input dialog for inc-rename.nvim lsp_doc_border = true, -- add a border to hover docs and signature help
 		},
 		routes = {
-			{
-				filter = { event = "msg_show", find = "Config Change Detected. Reloading..." },
-				opts = { skip = true },
-			},
 			{
 				filter = { event = "msg_show", find = "more lines" },
 				opts = { skip = true },

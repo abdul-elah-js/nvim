@@ -13,7 +13,7 @@ return {
 	},
 	cmd = "Telescope",
 	version = false,
-	opts = function()
+	config = function()
 		local builtin = require("telescope.builtin")
 		local actions = require("telescope.actions")
 		local keymap = vim.keymap
@@ -42,7 +42,7 @@ return {
 		end, opts("Plugins"))
 		keymap.set({ "n" }, "<leader>fr", ":Telescope resume<CR>", opts("Resume"))
 
-		return {
+		require("telescope").setup({
 			defaults = {
 				file_ignore_patterns = {
 					"node_modules/",
@@ -71,6 +71,11 @@ return {
 					},
 				},
 			},
-		}
+			extensions = {
+				quicknote = {
+					defaultScope = "CWD",
+				},
+			},
+		})
 	end,
 }

@@ -1,38 +1,5 @@
 local M = {}
 
----parse cmds by removing the colon or the <cmd> prefix
----@param cmd any
----@return unknown
-M.parse_cmd = function(cmd)
-	if cmd:sub(1, 1) == ":" then
-		return cmd:sub(2)
-	elseif string.lower(cmd:sub(1, 5)) == "<cmd>" then
-		return cmd:sub(6)
-	end
-	return cmd
-end
-
----Toggle settings on/off
----@param name? string
----@param current_state? any
----@param action? string | fun(new_state: any): nil
-M.toggle = function(name, current_state, action)
-	local new_state
-	if current_state ~= nil then
-		new_state = not current_state
-	end
-	if action and type(action) == "function" then
-		action(new_state)
-	elseif type(action) == "string" then
-		vim.cmd(M.parse_cmd(action))
-	else
-		current_state = new_state
-	end
-	if name ~= nil then
-		vim.notify(name .. " is " .. tostring(new_state))
-	end
-end
-
 M.default = function(value, default)
 	if value == nil then
 		return default
@@ -40,10 +7,36 @@ M.default = function(value, default)
 	return value
 end
 
-M.copy_path = function(p)
-	local path = vim.fn.expand(p or "%:p")
-	vim.fn.setreg("+", path)
-	vim.notify("Copied path to clipboard")
+--- Keymap opts and additional data
+---@param desc any
+---@param opts? { noremap: boolean, silent: boolean, buffer: number }
+---@return table
+M.opts = function(desc, opts)
+	opts = opts or {}
+	return vim.tbl_deep_extend(
+		"force",
+		{ noremap = M.default(opts.noremap, true), silent = M.default(opts.silent, true), desc = desc },
+		opts.buffer and { buffer = opts.buffer } or {}
+	)
+end
+
+-- TODO: add support for multiple lhs
+--
+---Keymap helper method
+---@param modes ("n" | "v" | "c" | "i" | "t" | "x")[] | ("n" | "v" | "c" | "i" | "t" | "x")
+---@param lhs string
+---@param rhs string | function
+---@param opts? vim.keymap.set.Opts | string
+---@param notify? string
+M.keymap = function(modes, lhs, rhs, opts, notify)
+	modes = modes or { "n" }
+	opts = type(opts) == "string" and { desc = " " .. opts, noremap = true, silent = true }
+		or vim.tbl_deep_extend("force", { noremap = true, silent = true }, opts)
+	vim.keymap.set(modes, lhs, rhs, opts)
+
+	if notify then
+		vim.notify(notify)
+	end
 end
 
 M.require = function(path)
@@ -55,13 +48,25 @@ M.require = function(path)
 	end
 end
 
-M.merge = function(base, overrides)
-	return vim.tbl_deep_extend("force", {}, base, overrides)
+---Merge two tables
+---@param base table
+---@param overrides table
+---@param behavior ("error" | "force" | "keep")
+---@return table
+M.merge = function(base, overrides, behavior)
+	return vim.tbl_deep_extend(behavior or "force", {}, base, overrides)
+end
+
+M.get_path = function()
+	local buffer_path = vim.api.nvim_buf_get_name(0)
+	return buffer_path ~= "" and vim.fn.fnamemodify(buffer_path, ":p:h") or vim.fn.getcwd()
 end
 
 M.is_floating_window_open = function()
+	print("I am called!")
 	for _, win in ipairs(vim.api.nvim_list_wins()) do
 		local config = vim.api.nvim_win_get_config(win)
+		vim.notify(vim.inspect(config))
 		if config.relative ~= "" then
 			return true
 		end
@@ -73,22 +78,21 @@ M.has_lsp_attached = function()
 	return next(vim.lsp.get_clients({ bufnr = 0 })) ~= nil -- 0 refers to the current buffer
 end
 
---- Keymap opts and additional data
----@param desc any
----@param opts? { notification?: string, noremap?: boolean, silent?: boolean, buffer: number }
----@return table
-M.opts = function(desc, opts)
-	if not opts then
-		opts = {}
+M.tbl_stringify = function(tbl, indent)
+	indent = indent or 0
+	local result = {}
+	local padding = string.rep("  ", indent)
+
+	for key, value in pairs(tbl) do
+		local formatted_key = type(key) == "string" and ('"' .. key .. '"') or key
+		if type(value) == "table" then
+			table.insert(result, padding .. formatted_key .. " = " .. tbl_stringify(value, indent + 1))
+		else
+			local formatted_value = type(value) == "string" and ("" .. value .. "") or tostring(value)
+			table.insert(result, padding .. formatted_key .. " = " .. formatted_value)
+		end
 	end
-	if opts.notification then
-		vim.notify(opts.notification)
-	end
-	local resp = { noremap = M.default(opts.noremap, true), silent = M.default(opts.silent, true), desc = desc }
-	if opts.buffer then
-		resp["buffer"] = opts.buffer
-	end
-	return resp
+	return "{\n" .. table.concat(result, ",\n") .. "\n" .. padding .. "}"
 end
 
 ---functional switch statement
@@ -102,12 +106,6 @@ M.switch = function(opts, default, selected)
 	else
 		return opts[default](selected)
 	end
-end
-
-M.get_path = function()
-	local buffer_path = vim.api.nvim_buf_get_name(0)
-	local dir = buffer_path ~= "" and vim.fn.fnamemodify(buffer_path, ":p:h") or vim.fn.getcwd()
-	return dir
 end
 
 return M

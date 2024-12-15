@@ -12,7 +12,7 @@ return {
 	config = function()
 		require("lualine").setup({
 			options = {
-				theme = "auto",
+				theme = "rose-pine",
 				icons_enabled = true,
 				globalstatus = true,
 				refresh = {

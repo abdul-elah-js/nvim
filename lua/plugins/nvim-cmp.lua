@@ -49,7 +49,6 @@ return {
 					}, -- LSP completion source
 					{ name = "luasnip" }, -- Snippet completion source
 					{ name = "buffer" }, -- Buffer completion source
-					{ name = "cmdline" }, -- Command line
 					{ name = "path" }, -- Path completion source
 				}),
 				window = {
@@ -66,6 +65,7 @@ return {
 							luasnip = "[Snippet]",
 							path = "[Path]",
 						})[entry.source.name]
+						-- print("Source is " .. entry.source.name) # Debug
 						return vim_item
 					end,
 				},
