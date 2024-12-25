@@ -40,4 +40,5 @@ require("lazy").setup({
 	change_detection = { enabled = true, notify = false },
 	ui = { border = "rounded" },
 })
+require("config.user_commands")
 require("config.keymaps")

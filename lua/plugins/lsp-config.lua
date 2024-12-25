@@ -88,8 +88,8 @@ return {
 			})
 
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities =
-				vim.tbl_deep_extend("force", {}, capabilities, require("cmp_nvim_lsp").default_capabilities())
+			-- capabilities =
+			-- vim.tbl_deep_extend("force", {}, capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 			local servers = {
 				ansiblels = {},
@@ -170,7 +170,14 @@ return {
 					function(server_name)
 						local server = servers[server_name] or {}
 						-- only override explicit keys found in servers table
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						-- server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						server.capabilities = vim.tbl_deep_extend(
+							"force",
+							{},
+							require("blink.cmp").get_lsp_capabilities(
+								server.capabilities or vim.lsp.protocol.make_client_capabilities()
+							)
+						)
 						require("lspconfig")[server_name].setup(server)
 					end,
 				},

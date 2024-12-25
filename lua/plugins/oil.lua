@@ -39,6 +39,8 @@ return {
 			},
 			keymaps = {
 				["?"] = "actions.show_help",
+				["-"] = "actions.open_cwd",
+				["<leader>-"] = "actions.parent",
 				["<C-i>"] = "actions.toggle_hidden",
 				["<C-x>"] = { "actions.select", opts = { horizontal = true }, desc = "Open in horizontal split" },
 				["<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open in vertical split" },

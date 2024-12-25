@@ -4,6 +4,7 @@ local o = vim.o
 local inlay_hint = vim.lsp.inlay_hint
 local diagnostic = vim.diagnostic
 local g = require("gitsigns.config").config
+local t = require("telescope.builtin")
 
 ---@param name string
 ---@param state? boolean
@@ -99,6 +100,65 @@ end
 M.word_diff = function()
 	vim.cmd("Gitsigns toggle_word_diff")
 	M.notify("Word Diff", g.word_diff)
+end
+
+M.find_plugins = function()
+	t.find_files({
+		hidden = true,
+		cwd = os.getenv("XDG_CONFIG_HOME") .. "/nvim/lua/plugins",
+	})
+end
+
+M.find_config = function()
+	t.find_files({
+		hidden = true,
+		cwd = os.getenv("XDG_CONFIG_HOME") .. "/nvim/lua/config",
+	})
+end
+
+M.find_cwd = function()
+	t.live_grep({
+		hidden = true,
+		cwd = require("config.utils").get_path() .. "/",
+	})
+end
+
+M.find_core_plugins = function()
+	t.live_grep({
+		hidden = true,
+		cwd = vim.fn.stdpath("data") .. "/",
+		glob_pattern = "*.lua",
+	})
+end
+
+M.find_files = function()
+	t.find_files({ hidden = true })
+end
+
+M.find_files_in = function()
+	vim.fn.input({ prompt = " in: ", completion = "file" }, function(input)
+		if input then
+			t.find_files({
+				hidden = true,
+				cwd = input,
+			})
+		end
+	end)
+end
+
+M.live_grep = function()
+	t.live_grep({ hidden = true })
+end
+
+M.live_grep_in = function()
+	vim.fn.input({ prompt = "", completion = "file" }, function(input)
+		if input then
+			t.live_grep({
+				hidden = true,
+				cwd = input,
+			})
+		end
+	end)
 end
 
 return M

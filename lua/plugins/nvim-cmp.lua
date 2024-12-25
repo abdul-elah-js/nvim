@@ -1,6 +1,7 @@
 return {
 	{
 		"hrsh7th/nvim-cmp",
+		enabled = false,
 		dependencies = {
 			-- Sources for nvim-cmp
 			"hrsh7th/cmp-nvim-lsp", -- LSP source for nvim-cmp

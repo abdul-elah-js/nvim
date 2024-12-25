@@ -8,11 +8,6 @@ k("n", "U", "<C-r>", "Redo")
 k("i", "kj", "<Escape>", "Escape Insert Mode")
 k("i", "jk", "<Escape>", "Escape Insert Mode")
 
-k("n", "<A-j>", ":m .+1<CR>==", "Move Line Upwards")
-k("n", "<A-k>", ":m .-2<CR>==", "Move Line Downwards")
-k("x", "<A-j>", ":m '>+1<CR>gv=gv", "Move Selection Upwards")
-k("x", "<A-k>", ":m '<-2<CR>gv=gv", "Move Selection Downwards")
-
 k("n", "<leader>ll", ":LspLog<CR>", "LSP Log")
 k("n", "<leader>ls", ":LspStart<CR>", "Start LSP")
 k("n", "<leader>lr", ":LspRestart<CR>", "Restart LSP")

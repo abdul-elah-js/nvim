@@ -13,10 +13,11 @@ return {
 		{ "<C-Tab>", ":BufferLineMoveNext<CR>", desc = "Move Next" },
 		{ "<C-S-Tab>", ":BufferLineMovePrev<CR>", desc = "Move Prev" },
 		{ "<leader>bo", ":BufferLineCloseOthers<CR>", desc = "Delete Others" },
-		{ "<leader>br", ":BufferLineCloseRight<CR>", desc = "Delete Right" },
-		{ "<leader>bl", ":BufferLineCloseLeft<CR>", desc = "Delete Left" },
+		{ "<leader>bh", ":BufferLineCloseLeft<CR>", desc = "Delete Left" },
+		{ "<leader>bl", ":BufferLineCloseRight<CR>", desc = "Delete Right" },
 		{ "<leader>b0", ":BufferLineGoTo -1<CR>", desc = "Focus Last Buffer" },
 		{ "<leader>b1", ":BufferLineGoTo 1<CR>", desc = "Focus First Buffer" },
+		{ "<leader>bb", ":buffer #<CR>", desc = "To Last Visited Buffer" },
 	},
 	config = function()
 		require("bufferline").setup({

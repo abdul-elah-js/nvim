@@ -19,11 +19,15 @@ opt.conceallevel = 2
 opt.swapfile = false
 opt.laststatus = 0
 
+opt.ignorecase = true
+opt.smartcase = true
+opt.smarttab = true
+opt.smartindent = true
+
 -- indentation
 opt.tabstop = 2
 opt.shiftwidth = 2
 opt.expandtab = true
-opt.smartindent = true
 
 -- search
 opt.hlsearch = true

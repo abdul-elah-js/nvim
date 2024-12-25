@@ -1,4 +1,5 @@
-local opts = require("config.utils").opts
+local k = require("config.utils").keymap
+local k_fn = require("config.keymaps_functions")
 
 return {
 	"nvim-telescope/telescope.nvim",
@@ -14,33 +15,26 @@ return {
 	cmd = "Telescope",
 	version = false,
 	config = function()
-		local builtin = require("telescope.builtin")
+		local b = require("telescope.builtin")
 		local actions = require("telescope.actions")
-		local keymap = vim.keymap
 
-		keymap.set("n", "<leader><space>", function()
-			builtin.find_files({ hidden = true })
-		end, opts("Find Files"))
-		keymap.set("n", "<leader>/", function()
-			builtin.live_grep({ hidden = true })
-		end, opts("Live Grep"))
-		keymap.set({ "n" }, "<leader>fg", function()
-			require("telescope.builtin").git_files()
-		end, opts("Git Files"))
-		keymap.set({ "n" }, "<leader>fG", function()
-			require("telescope.builtin").git_stash()
-		end, opts("Git Stash"))
-		keymap.set({ "n" }, "<leader>fk", ":Telescope keymaps<CR>", opts("Keymaps"))
-		keymap.set({ "n" }, '<leader>f"', ":Telescope registers<CR>", opts("Registers"))
-		keymap.set({ "n" }, "<leader>f:", ":Telescope command_history<CR>", opts("Commands"))
-		keymap.set({ "n" }, "<leader>fh", ":Telescope highlights<CR>", opts("Highlights"))
-		keymap.set({ "n" }, "<leader>fc", function()
-			require("telescope.builtin").find_files({ hidden = true, cwd = "~/.config/nvim/lua/config" })
-		end, opts("Config"))
-		keymap.set({ "n" }, "<leader>fp", function()
-			require("telescope.builtin").find_files({ hidden = true, cwd = "~/.config/nvim/lua/plugins" })
-		end, opts("Plugins"))
-		keymap.set({ "n" }, "<leader>fr", ":Telescope resume<CR>", opts("Resume"))
+		k("n", "<leader><space>", k_fn.find_files, "Find Files")
+		k("n", "<leader>/", k_fn.live_grep, "Live Grep")
+		k("n", "<leader>fi", k_fn.find_files_in, "Find Files In")
+		k("n", "<leader>fw", k_fn.live_grep_in, "Find Files In")
+		k("n", "<leader>fc", k_fn.find_config, "Config")
+		k("n", "<leader>fp", k_fn.find_plugins, "Plugins")
+		k("n", "<leader>fP", k_fn.find_core_plugins, "Core Config")
+		k("n", "<leader>f.", k_fn.find_cwd, "Live Grep [CWD]")
+		k("n", "<leader>fg", b.git_files, "Git Files")
+		k("n", "<leader>fG", b.git_stash, "Git Stash")
+		k("n", "<leader>fH", b.help_tags, "Help Tags")
+		k("n", "<leader>fm", b.man_pages, "Help Tags")
+		k("n", "<leader>fk", b.keymaps, "Keymaps")
+		k("n", '<leader>f"', b.registers, "Registers")
+		k("n", "<leader>f:", b.command_history, "Commands")
+		k("n", "<leader>fh", b.highlights, "Highlights")
+		k("n", "<leader>fr", b.resume, "Resume")
 
 		require("telescope").setup({
 			defaults = {
@@ -72,10 +66,15 @@ return {
 				},
 			},
 			extensions = {
-				quicknote = {
-					defaultScope = "CWD",
+				fzf = {
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case",
 				},
 			},
 		})
+
+		require("telescope").load_extension("fzf")
 	end,
 }
